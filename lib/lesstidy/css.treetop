@@ -1,0 +1,83 @@
+require File.dirname(__FILE__) + "/css_syntax"
+
+grammar CSS
+  rule document
+    (block_comment_s / ruleset)* {
+      def build
+        env = CSS::Document.new
+        cascade env
+      end
+    }
+  end
+
+  rule ruleset
+    ws selector_group ws '{' rule_group ws '}' {
+      def build( env )
+        ruleset = CSS::Ruleset.new
+        env << ruleset
+        cascade ruleset
+      end
+    }
+  end
+
+  rule rule_group
+    ( mixin / stylerule )* {
+       def build( a ); cascade a; end
+    }
+  end
+
+  rule selector_group
+    selector ( ws ',' ws selector )* {
+      def build( ruleset )
+        cascade ruleset
+      end
+    }
+  end
+
+  rule selector
+    ( [a-z] / '>' / ':' / '(' / ')' / '-' / '_' / '#' / '.' / ' ' )+ {
+      def build( ruleset )
+        sel = CSS::Selector.new self.text_value
+        ruleset << sel
+      end
+    }
+  end
+
+  rule mixin
+    ws '.' [a-z]* ( '(' [a-z]* ')' )? ws ';' <CSSSyntax::Mixin>
+  end
+
+  rule stylerule
+    ws property ws ':' ws value ws ';' {
+      def build( ruleset )
+        rule = CSS::Rule.new property.text_value, value.text_value
+        ruleset << rule
+      end
+    }
+  end
+
+  rule property
+    '-'? [a-z]+ ( '-' [a-z]* )*
+  end
+
+  rule value
+    (!';' . )*
+  end
+
+  rule block_comment
+    [\n ]* '/*' (!'*/' . )* '*/'
+  end
+
+  rule block_comment_s
+    [\n ]* '/*' content:(!'*/' . )* '*/' {
+      def build( env )
+        env << CSS::Comment.new( content.text_value )
+      end
+    }
+  end
+
+  rule ws
+    [\n ]*
+  end
+end
+
