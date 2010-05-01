@@ -7,5 +7,13 @@ module CSS
   Treetop.load "#{prefix}/css"
 
   autoload :Nodes,     "#{prefix}/nodes"
+  autoload :Renderer,  "#{prefix}/renderer"
   autoload :Style,     "#{prefix}/style"
 end
+
+# Document
+#   Ruleset
+#     Selector 
+#     Rule
+#     Mixin
+#     Ruleset*

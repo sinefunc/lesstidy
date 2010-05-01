@@ -30,7 +30,7 @@ grammar CSS
   end
 
   rule rule_group
-    ( mixin / stylerule )* 
+    ( mixin / stylerule / ruleset )* 
   end
 
   rule selector_group

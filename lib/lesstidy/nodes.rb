@@ -1,6 +1,8 @@
 module CSS
   module Nodes
     class Node
+      include CSS::Renderer
+
       attr_reader :elements
       attr_accessor :parent
 
@@ -28,18 +30,11 @@ module CSS
       def inspect_s
         "<#{self.class.to_s}>"
       end
-
-      def to_css(style)
-        ''
-      end
     end
 
     class Document < Node
       def inspect_s
         "[document]"
-      end
-
-      def to_css(style)
       end
     end
 
@@ -49,7 +44,7 @@ module CSS
       end
 
       def inspect_s
-        "[rule]"
+        "[ruleset]"
       end
     end
 
@@ -67,7 +62,8 @@ module CSS
 
     class Selector < Node
       attr_reader :selector
-      def initialize( selector )
+
+      def initialize(selector)
         super
         @selector = selector
       end
@@ -80,6 +76,7 @@ module CSS
     class Rule < Node
       attr_reader :property
       attr_reader :value
+
       def initialize( property, value )
         super
         @property = property
@@ -87,22 +84,22 @@ module CSS
       end
       
       def inspect_s
-        "[R] ... #{@property}: #{value}"
+        "[R]    #{@property}: #{value}"
       end
     end
 
     class Mixin < Node
-      attr_reader :name
+      attr_reader :selector
       attr_reader :params
 
-      def initialize(name, params = nil)
+      def initialize(selector, params = nil)
         super
-        @name = name
+        @selector = selector
         @params = params
       end
 
       def inspect_s
-        "[M] ... #{@name}%s" % [(params ? "(#{params})" : '')]
+        "[M]    #{@selector}%s" % [(params ? "(#{params})" : '')]
       end
     end
   end
