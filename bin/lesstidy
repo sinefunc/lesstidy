@@ -5,22 +5,24 @@ $:.unshift lib_path
 require 'optparse'
 require 'rubygems'
 require 'lesstidy'
+require 'ostruct'
 
-options = {
+options = OpenStruct.new({
   :input  => '-',
-  :output => '-'
-}
+  :output => '-',
+  :debug  => false
+})
 
 opts = OptionParser.new do |o|
   o.banner = "usage: lesstidy [<input>]"
   o.separator ""
 
-  #o.on("-w", "--watch", "watch for changes") do
-  #  options[:watch] = true
-  #end
+  o.on("-d", "--debug", "show debug info instead") do
+    options.debug = true
+  end
   
   o.on('-o', '--output FILE', 'output file') do |file|
-    options[:output] = file
+    options.output = file
   end
 
   # Help
@@ -38,21 +40,21 @@ rescue OptionParser::InvalidOption
 end
 
 if ARGV.size == 1
-  options[:input]  = ARGV[0]
+  options.input = ARGV[0]
 elsif ARGV.size > 1
   puts opts
   exit
 end
 
 begin
-  input = options[:input] == '-' ? STDIN : File.open(options[:input], "r")
+  input = options.input == '-' ? STDIN : File.open(options.input, "r")
 rescue Errno::ENOENT
   STDERR << "Can't open input file for reading"
   exit
 end
 
 begin
-  output = options[:output] == '-' ? STDOUT : File.open(options[:output], "w")
+  output = options.output == '-' ? STDOUT : File.open(options.output, "w")
 rescue Errno::ENOENT
   STDERR << "Can't open output file for reading"
   exit
@@ -61,7 +63,12 @@ end
 contents = input.read
 style = CSS::Style.new
 doc = CSS::Document.new(contents)
-output << doc.to_css
+
+if options.debug
+  output << doc.inspect.strip
+else
+  output << doc.to_css.strip
+end
 
 input.close
 output.close

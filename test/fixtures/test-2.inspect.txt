@@ -1,0 +1,37 @@
+. [document]
+. . [ruleset]
+. . . [S] #menu a
+. . . [S] div 
+. . . [R]    color: red
+. . . [R]    font-weight: bold
+. . /* More */
+. . [ruleset]
+. . . [S] #menu ul li > div
+. . . [S] td
+. . . [S] tr
+. . . [S] #menu a:hover div #lol yes yes .something span.clear-fix
+. . . [S] table 
+. . . [R]    text-align: center
+. . . [M]    .black
+. . . [R]    font-weight: bold
+. . . [R]    border: solid 2px #882828
+. . . [R]    cursor: default
+. . . [R]    background-repeat: no-repeat
+. . [ruleset]
+. . . [S] a:hover 
+. . . [M]    .corner(5px)
+. . . [R]    background: url(foo.png)
+. . . /* Superstar */
+. . . [ruleset]
+. . . . [S] span 
+. . . . [R]    font-weight: bold
+. . . [ruleset]
+. . . . [S] span
+. . . . [S] a:hover
+. . . . [S] a:active
+. . . . [S] a:hover span
+. . . . [S] a:active span 
+. . . . [R]    text-decoration: underline
+. . . . [ruleset]
+. . . . . [S] strong em 
+. . . . . [R]    color: blue
