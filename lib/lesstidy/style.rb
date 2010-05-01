@@ -9,6 +9,7 @@ module CSS
     
     def verify
       # wrap_width > selector_width
+      # /\s*{\s/.match open_brace
     end
 
     def defaults
@@ -21,6 +22,7 @@ module CSS
         :colon           => ": ",   # Add spaces if needed
         :comma           => ", ",   # Spaces if needed
         :subrule_indent  => 2,
+        :subrule_before  => "\n",
         :property_indent => 42,
       }
     end
