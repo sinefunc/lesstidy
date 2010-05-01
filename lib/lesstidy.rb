@@ -10,11 +10,5 @@ module CSS
   autoload :Renderer,  "#{prefix}/renderer"
   autoload :Document,  "#{prefix}/document"
   autoload :Style,     "#{prefix}/style"
+  autoload :CUtil,     "#{prefix}/cutil"
 end
-
-# Document
-#   Ruleset
-#     Selector 
-#     Rule
-#     Mixin
-#     Ruleset*

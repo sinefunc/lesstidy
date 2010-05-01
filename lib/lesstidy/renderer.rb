@@ -1,69 +1,79 @@
+require 'ostruct'
+
 module CSS
   module Renderer
-    def to_css(*a)
+    # args = new Args(*args)
+    # args.context
+    class Args < OpenStruct
+      def new(*args)
+        super args.inject({}) { |a, i| a.merge! i }
+      end
+    end
+
+    def to_css(*args)
       # Try to delegate to `(classname)_to_css` (eg, rule_to_css).
       klass = /([a-zA-Z_]+)$/.match(self.class.to_s)[1]
       css_method = "#{klass}_to_css".downcase.to_sym
       if respond_to? css_method
-        send css_method, *a
+        send css_method, *args
       else
         ''
       end
     end
 
-    def document_to_css(style = Style.new)
-      @elements.inject('') { |a, e|
-        if e.is_a? Nodes::Ruleset
-          a << e.to_css(style, 0)
-        end
-        a
-      }
+    protected
+    def document_to_css(style = Style.new, *args)
+      @elements.inject('') do |a, element|
+        a << element.to_css(style, :context => :document); a
+      end
     end
 
-    def ruleset_to_css(style, depth = 0)
-      selectors = @elements.select { |e| e.is_a? Nodes::Selector }
-      items     = @elements.reject { |e| e.is_a? Nodes::Selector or e.is_a? Nodes::Ruleset }
-      subrules  = @elements.select { |e| e.is_a? Nodes::Ruleset }
+    def comment_to_css(style, *args)
+      args = Args.new *args
+      args.depth ||= 0
 
-      # Start
-      ret = ''
+      if args.context == :document
+        style.document_comment % ["/* #{@comment} */"]
 
-      # Selector
-      subrule_indent = depth * style.subrule_indent # Number of spaces
-      sels = selectors.map { |sel| sel.to_css(style) }
-      sels = sels.join(style.comma)
-      sels = " " * subrule_indent + sels
-      if style.selector_width
-        sels = wrap(sels, style.selector_width, :pad => true, :indent => subrule_indent, :first_indent => subrule_indent)
+      elsif args.context == :ruleset
+        indent  = ' ' * (args.depth * style.subrule_indent)
+        comment = "/* #{@comment} */" 
+        "#{indent}#{comment}\n"
       end
-      ret << (sels + style.open_brace)
+    end
+
+    def ruleset_to_css(style, *args)
+      args = Args.new *args
+      args.depth ||= 0
+
+      selectors = @elements.select { |e| e.is_a? Nodes::Selector }
+      items     = @elements.select { |e| e.is_a? Nodes::Mixin or e.is_a? Nodes::Rule }
+      subrules  = @elements.select { |e| e.is_a? Nodes::Ruleset }
+      rnc       = @elements.select { |e| e.is_a? Nodes::Ruleset or e.is_a? Nodes::Comment }
+
+      # Start: selectors
+      r = ''
+      r << selectors_to_css(selectors, style, args)
 
       # Items (properties, mixins, etc)
-      indent = ret.split("\n")[-1].size
-      items = items.map { |item| item.to_css(style) + style.semicolon }.join('')
-      items = wrap(items, style.wrap_width, :indent => style.property_indent, :first_indent => indent)
-      ret << items
+      indent = r.split("\n")[-1].size
+      r << items_to_css(items, indent, style, args)
 
-      # Subrules
-      if subrules.size > 0
-        subrules = subrules.map { |ruleset| ruleset.to_css(style, depth + 1) }
-        subrules = subrules.join('')
-        ret << style.subrule_before
-        ret << subrules
-      end
+      # Rules and Comments (rnc)
+      r << rules_and_comments_to_css(rnc, style, args)
 
-      # End
-      ret += (' ' * subrule_indent)  if /\n$/.match(ret)
-      ret = ret + style.close_brace
-      ret
+      # Close brace
+      indent = args.depth * style.subrule_indent # Number of spaces
+      r << (' ' * indent)  if /\n$/.match(r)
+      r << style.close_brace
     end
 
-    def rule_to_css(style)
+    def rule_to_css(style, *args)
       # TODO: Property width
       @property + style.colon + @value
     end
 
-    def mixin_to_css(style)
+    def mixin_to_css(style, *args)
       if @params
         "%s(%s)" % [@selector, @params]
       else
@@ -71,45 +81,55 @@ module CSS
       end
     end
 
-    def selector_to_css(style)
+    def selector_to_css(style, *args)
       @selector.strip
     end
 
-    protected
-    def wrap(text, width, *args)
-      # Inherit the given hashes
-      options = args.inject({}) { |a, i| a.merge! i }
-      options[:regexp] ||= /(?<=[;,])/
+    # Gets the rendered string for a given set of Selectors
+    # Delegate method of ruleset_to_css
+    def selectors_to_css(sels, style, args)
+      indent        = args.depth * style.subrule_indent # Number of spaces
+      indent_str    = ' ' * indent
+      selector_strs = sels.map { |sel| sel.to_css(style) }
 
-      first_indent = options[:first_indent]
-      indent = ''
-      indent = ' ' * options[:indent]  if options[:indent]
-
-      ret = text.split(options[:regexp]).inject(['']) do |a, chunk|
-        nl = a[-1] + chunk
-
-        line_width = first_indent ? (width - first_indent) : width
-        if nl.rstrip.size > line_width
-          # To wrap...
-          a << (indent + chunk.lstrip)
-          first_indent = false
-
-          # If the new line exceeds the line width, rewrap!
-          if a[-1].size > width and not options[:no_rewrap]
-            a = a[0..-2] + wrap(a[-1], width, *(args + [{ :regexp => /(?<= )/, :no_rewrap => true, :array => true, :pad => false }]))
-          end
-        else
-          # Or not to wrap
-          a[-1] = nl
-        end
-        a
-      end
-
-      # Pad the last line with spaces
-      ret[-1] = ret[-1] + (" " * (width - ret[-1].size))  if options[:pad]
-
-      # Stringify if needed
-      options[:array] ? ret : ret.join("\n")
+      r = CUtil::String.new
+      r.replace    selector_strs.join(style.comma)
+      r.prepend!   indent_str
+      r.wrap!      :width  => style.selector_width,
+                   :pad    => true,
+                   :indent => indent  if style.selector_width > 0
+      r.append!    style.open_brace
+      r.to_s
     end
+
+    # Gets the rendered string for a given set of Mixins and Rules
+    # Delegate method of ruleset_to_css
+    def items_to_css(items, indent, style, args)
+      items_css = items.map { |item| item.to_css(style) + style.semicolon }
+
+      r = CUtil::String.new
+      r.replace  items_css.join('')
+      r.wrap!    :width        => style.wrap_width,
+                 :indent       => style.property_indent,
+                 :first_indent => indent
+      r.to_s
+    end
+
+    # Gets the rendered string for a given set of Rules and Comments
+    # Delegate method of ruleset_to_css
+    def rules_and_comments_to_css(items, style, args)
+      r = ''
+      if items.size > 0
+        item_strs = items.map do |item|
+          item.to_css(style,
+                      :context => :ruleset,
+                      :depth   => (args.depth + 1))
+        end
+        r << style.subrule_before
+        r << item_strs.join('')
+      end
+      r
+    end
+
   end
 end

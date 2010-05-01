@@ -12,11 +12,13 @@ module CSS
       # /\s*{\s/.match open_brace
     end
 
+    protected
     def defaults
       { :wrap_width      => 110,    # nil for no wrap
         :selector_width  => 40,     # nil for no columning
         :open_brace      => "{ ",
         :close_brace     => "}\n",
+        :document_comment => "\n%s\n",
         :semicolon       => "; ",   # Add NLs after if needed
         :property_width  => nil,
         :colon           => ": ",   # Add spaces if needed

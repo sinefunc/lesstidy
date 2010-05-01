@@ -50,7 +50,8 @@ module CSS
 
     class Comment < Node
       attr_reader :comment
-      def initialize( content )
+
+      def initialize(content)
         super
         @comment = content
       end

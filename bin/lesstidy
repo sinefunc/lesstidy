@@ -1,22 +1,69 @@
 #!/usr/bin/env ruby
+lib_path = File.dirname(__FILE__) + "/../lib"
+$:.unshift lib_path
 
-require "optparse"
+require 'optparse'
+require 'rubygems'
+require 'lesstidy'
 
-options = {}
-opts = OptionParser.new do |opts|
-  opts.banner = "Usage: #{File.basename($PROGRAM_NAME)}"
+options = {
+  :input  => '-',
+  :output => '-'
+}
 
-  opts.on( "-q", "--quaffle", String, "Something") do |opt|
-    options[:quaffle] = opt
+opts = OptionParser.new do |o|
+  o.banner = "usage: lesstidy [<input>]"
+  o.separator ""
+
+  #o.on("-w", "--watch", "watch for changes") do
+  #  options[:watch] = true
+  #end
+  
+  o.on('-o', '--output FILE', 'output file') do |file|
+    options[:output] = file
   end
 
-  opts.separator ""
-  opts.on_tail( "-h", "--help", "Shows this message" ) do
+  # Help
+  o.on_tail("-h", "--help", "show this message") do
     puts opts
+    exit
   end
 end
-opts.parse!
-options[:input] = ARGV[0] if ARGV.size > 0
-options[:output] = ARGV[1] if ARGV.size > 1
 
-#LessTidy::Engine.new( options ).run
+begin
+  opts.parse!
+rescue OptionParser::InvalidOption
+  puts opts
+  exit
+end
+
+if ARGV.size == 1
+  options[:input]  = ARGV[0]
+elsif ARGV.size > 1
+  puts opts
+  exit
+end
+
+begin
+  input = options[:input] == '-' ? STDIN : File.open(options[:input], "r")
+rescue Errno::ENOENT
+  STDERR << "Can't open input file for reading"
+  exit
+end
+
+begin
+  output = options[:output] == '-' ? STDOUT : File.open(options[:output], "w")
+rescue Errno::ENOENT
+  STDERR << "Can't open output file for reading"
+  exit
+end
+
+contents = input.read
+style = CSS::Style.new
+doc = CSS::Document.new(contents)
+output << doc.to_css
+
+input.close
+output.close
+
+

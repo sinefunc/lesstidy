@@ -1,6 +1,5 @@
 To do:
  - More types
-   - Comments
    - Mixin declarations
    - Var declarations
    - import lines
@@ -9,4 +8,5 @@ To do:
  - Presets
 
 Done:
+ - Comments
  - recursive wrapping

@@ -11,12 +11,21 @@ require File.dirname(__FILE__) + "/css_syntax"
 
 grammar CSS
   rule document
-    ws (block_comment_s / ruleset)* ws {
+    ws document_item* ws {
       def build(env = nil)
         env ||= CSS::Nodes::Document.new
         cascade env
       end
     }
+  end
+
+  rule document_item
+    block_comment {
+      def build(env)
+        env << CSS::Nodes::Comment.new(comment.text_value)
+      end
+    } /
+    ruleset
   end
 
   rule ruleset
@@ -29,8 +38,26 @@ grammar CSS
     }
   end
 
+  # Anything inside a `#selector { ... }`
   rule rule_group
-    ( mixin / stylerule / ruleset )* 
+    rule_group_item*
+  end
+
+  rule rule_group_item
+    mixin {
+    } /
+    stylerule {
+      def build( ruleset )
+        rule = CSS::Nodes::Rule.new property.text_value, value.text_value
+        ruleset << rule
+      end
+    } /
+    block_comment {
+      def build(ruleset)
+        ruleset << CSS::Nodes::Comment.new(comment.text_value)
+      end
+    } /
+    ruleset
   end
 
   rule selector_group
@@ -38,8 +65,8 @@ grammar CSS
   end
 
   rule selector
-    ( [a-z] / '>' / ':' / '(' / ')' / '-' / '_' / '#' / '.' / ' ' )+ {
-      def build( ruleset )
+    ( [A-Za-z0-9] / '>' / ':' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / ' ' / '&' )+ {
+      def build(ruleset)
         sel = CSS::Nodes::Selector.new self.text_value
         ruleset << sel
       end
@@ -62,16 +89,11 @@ grammar CSS
   end
 
   rule stylerule
-    ws property ws ':' ws value ws ';' {
-      def build( ruleset )
-        rule = CSS::Nodes::Rule.new property.text_value, value.text_value
-        ruleset << rule
-      end
-    }
+    ws property ws ':' ws value ws ';'
   end
 
   rule property
-    '-'? [a-z]+ ( '-' [a-z]* )*
+    '-'? [A-Za-z]+ ( '-' [A-Za-z]* )*
   end
 
   rule value
@@ -79,15 +101,7 @@ grammar CSS
   end
 
   rule block_comment
-    [\n ]* '/*' (!'*/' . )* '*/'
-  end
-
-  rule block_comment_s
-    [\n ]* '/*' content:(!'*/' . )* '*/' {
-      def build( env )
-        env << CSS::Nodes::Comment.new( content.text_value )
-      end
-    }
+    [\n ]* '/*' ' '* comment:(!(' '* '*/') . )* ' '* '*/'
   end
 
   rule ws
