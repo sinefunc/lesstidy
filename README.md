@@ -1,9 +1,11 @@
 To do:
- - Comments
- - Mixin declarations
- - Var declarations
- - import lines
+ - More types
+   - Comments
+   - Mixin declarations
+   - Var declarations
+   - import lines
  - bin/lesstidy
+ - blackbox testing
  - Presets
 
 Done:

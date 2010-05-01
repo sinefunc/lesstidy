@@ -11,7 +11,7 @@ module CSS
       end
     end
 
-    def document_to_css(style)
+    def document_to_css(style = Style.new)
       @elements.inject('') { |a, e|
         if e.is_a? Nodes::Ruleset
           a << e.to_css(style, 0)

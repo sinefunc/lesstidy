@@ -11,9 +11,9 @@ require File.dirname(__FILE__) + "/css_syntax"
 
 grammar CSS
   rule document
-    (block_comment_s / ruleset)* {
-      def build
-        env = CSS::Nodes::Document.new
+    ws (block_comment_s / ruleset)* ws {
+      def build(env = nil)
+        env ||= CSS::Nodes::Document.new
         cascade env
       end
     }

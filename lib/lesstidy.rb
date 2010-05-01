@@ -8,6 +8,7 @@ module CSS
 
   autoload :Nodes,     "#{prefix}/nodes"
   autoload :Renderer,  "#{prefix}/renderer"
+  autoload :Document,  "#{prefix}/document"
   autoload :Style,     "#{prefix}/style"
 end
 
