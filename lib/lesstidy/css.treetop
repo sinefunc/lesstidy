@@ -1,10 +1,19 @@
 require File.dirname(__FILE__) + "/css_syntax"
 
+# Document
+#  Import
+#  Variable
+#  Comment
+#  Ruleset
+#    Selector
+#    Mixin
+#    Stylerule (prop/val)
+
 grammar CSS
   rule document
     (block_comment_s / ruleset)* {
       def build
-        env = CSS::Document.new
+        env = CSS::Nodes::Document.new
         cascade env
       end
     }
@@ -13,7 +22,7 @@ grammar CSS
   rule ruleset
     ws selector_group ws '{' rule_group ws '}' {
       def build( env )
-        ruleset = CSS::Ruleset.new
+        ruleset = CSS::Nodes::Ruleset.new
         env << ruleset
         cascade ruleset
       end
@@ -21,36 +30,41 @@ grammar CSS
   end
 
   rule rule_group
-    ( mixin / stylerule )* {
-       def build( a ); cascade a; end
-    }
+    ( mixin / stylerule )* 
   end
 
   rule selector_group
-    selector ( ws ',' ws selector )* {
-      def build( ruleset )
-        cascade ruleset
-      end
-    }
+    selector ( ws ',' ws selector )*
   end
 
   rule selector
     ( [a-z] / '>' / ':' / '(' / ')' / '-' / '_' / '#' / '.' / ' ' )+ {
       def build( ruleset )
-        sel = CSS::Selector.new self.text_value
+        sel = CSS::Nodes::Selector.new self.text_value
         ruleset << sel
       end
     }
   end
 
   rule mixin
-    ws '.' [a-z]* ( '(' [a-z]* ')' )? ws ';' <CSSSyntax::Mixin>
+    ws name:('.' [a-z]*) '(' params:([a-zA-Z0-9 _\-@]*) ')' ws ';' {
+      def build(ruleset)
+        mixin = CSS::Nodes::Mixin.new name.text_value, params.text_value
+        ruleset << mixin
+      end
+    } /
+    ws name:('.' [a-z]*) ws ';' {
+      def build(ruleset)
+        mixin = CSS::Nodes::Mixin.new name.text_value
+        ruleset << mixin
+      end
+    }
   end
 
   rule stylerule
     ws property ws ':' ws value ws ';' {
       def build( ruleset )
-        rule = CSS::Rule.new property.text_value, value.text_value
+        rule = CSS::Nodes::Rule.new property.text_value, value.text_value
         ruleset << rule
       end
     }
@@ -71,7 +85,7 @@ grammar CSS
   rule block_comment_s
     [\n ]* '/*' content:(!'*/' . )* '*/' {
       def build( env )
-        env << CSS::Comment.new( content.text_value )
+        env << CSS::Nodes::Comment.new( content.text_value )
       end
     }
   end

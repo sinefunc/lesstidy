@@ -1,4 +1,4 @@
-require "lib/lesstidy"
+require "../lib/lesstidy"
 
 def t( a )
   CSSParser.new.parse a
@@ -7,7 +7,7 @@ end
 def try( a )
   p = CSSParser.new.parse a
   puts (p.nil? ? '[FAIL]' : '[ OK ]') + " #{a}"
-  puts p.lol if p.respond_to? :lol
+  puts p.build.inspect if p.respond_to? :build
   puts ""
 end
 
@@ -18,6 +18,7 @@ try "div,div { color: red; }"
 try "div,div { .lol(); color: red; }"
 try "div,div { color: red; font-weight: bold; }"
 try "div,div { color: red; font-weight: bold; /* wtf */ }"
+try "#menu a,div { color: red; font-weight: bold; } div { text-align: center; .black; } a:hover { .corner(5px); background: url(foo.png); }"
 
 def a
   #t "div,div { color: red; font-weight: bold; /* wtf */ }"
