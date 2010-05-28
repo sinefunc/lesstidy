@@ -11,4 +11,6 @@ module CSS
   autoload :Document,  "#{prefix}/document"
   autoload :Style,     "#{prefix}/style"
   autoload :CUtil,     "#{prefix}/cutil"
+  autoload :Preset,    "#{prefix}/preset"
+  autoload :Config,    "#{prefix}/config"
 end

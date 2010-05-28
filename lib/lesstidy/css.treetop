@@ -65,7 +65,7 @@ grammar CSS
   end
 
   rule selector
-    ( [A-Za-z0-9] / '>' / ':' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / ' ' / '&' )+ {
+    ( [A-Za-z0-9] / '>' / ':' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / [\n\t ]+ / '&' )+ {
       def build(ruleset)
         sel = CSS::Nodes::Selector.new self.text_value
         ruleset << sel
@@ -101,11 +101,11 @@ grammar CSS
   end
 
   rule block_comment
-    [\n ]* '/*' ' '* comment:(!(' '* '*/') . )* ' '* '*/'
+    [\n\t ]* '/*' ' '* comment:(!(' '* '*/') . )* ' '* '*/'
   end
 
   rule ws
-    [\n ]*
+    [\n\t ]*
   end
 end
 

@@ -107,10 +107,18 @@ module CSS
     def items_to_css(items, indent, style, args)
       items_css = items.map { |item| item.to_css(style) + style.semicolon }
 
+      indent_value = style.property_indent
+
+      if style.selector_width.nil?
+        indent_value += style.subrule_indent * args.depth  
+      else
+        indent_value += style.selector_width
+      end
+
       r = CUtil::String.new
       r.replace  items_css.join('')
       r.wrap!    :width        => style.wrap_width,
-                 :indent       => style.property_indent,
+                 :indent       => indent_value, 
                  :first_indent => indent
       r.to_s
     end

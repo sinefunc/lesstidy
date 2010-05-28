@@ -12,6 +12,11 @@ module CSS
       # /\s*{\s/.match open_brace
     end
 
+    # Convert to command line options
+    def serialize
+      ""
+    end
+
     protected
     def defaults
       { :wrap_width      => 110,    # nil for no wrap
@@ -23,10 +28,16 @@ module CSS
         :property_width  => nil,
         :colon           => ": ",   # Add spaces if needed
         :comma           => ", ",   # Spaces if needed
-        :subrule_indent  => 2,
-        :subrule_before  => "\n",
-        :property_indent => 42,
+        :subrule_indent  => 2,      # Indentation of sub rules
+        :subrule_before  => "\n",   # Separators of subrules
+        :property_indent => 2,      # How much to indent properties on their next line (will take selector width into account)
       }
+      # --wrap-width=110
+      # --selector-width=40
+      # --no-selector-column
+      # --open-brace-whitespace="|s"
+      # --document-comment-whitespace="n|n"
+      # --semicolon-whitespace="|s"
     end
   end
 end

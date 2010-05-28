@@ -2,7 +2,8 @@ module CSS
   class Document < CSS::Nodes::Document
     def initialize(str)
       super
-      tree = CSSParser.new.parse(str)
+      parser = CSSParser.new
+      tree = parser.parse(str)
       tree.build self
     end
     
