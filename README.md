@@ -3,10 +3,11 @@ To do:
    - Mixin declarations
    - Var declarations
    - import lines
- - bin/lesstidy
- - blackbox testing
  - Presets
+ - .lesstidyopts
 
 Done:
+ - bin/lesstidy
+ - blackbox testing
  - Comments
  - recursive wrapping

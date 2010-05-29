@@ -5,7 +5,7 @@ def t( a )
 end
 
 def try( a )
-  style = CSS::Style.new
+  style = Lesstidy::Style.new
 
   p = CSSParser.new.parse a
   puts (p.nil? ? '[FAIL]' : '[ OK ]') + " #{a}"

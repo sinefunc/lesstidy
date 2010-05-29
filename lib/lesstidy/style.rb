@@ -1,6 +1,6 @@
 require 'ostruct'
 
-module CSS
+module Lesstidy
   class Style < OpenStruct
     def initialize(custom = {})
       super custom

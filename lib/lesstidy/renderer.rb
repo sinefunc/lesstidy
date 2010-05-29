@@ -1,6 +1,6 @@
 require 'ostruct'
 
-module CSS
+module Lesstidy
   module Renderer
     # args = new Args(*args)
     # args.context

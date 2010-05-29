@@ -61,8 +61,8 @@ rescue Errno::ENOENT
 end
 
 contents = input.read
-style = CSS::Style.new
-doc = CSS::Document.new(contents)
+style = Lesstidy::Style.new
+doc = Lesstidy::Document.new(contents)
 
 if options.debug
   output << doc.inspect.strip

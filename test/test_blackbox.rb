@@ -7,7 +7,7 @@ class TestBlackbox < Test::Unit::TestCase
     inspect = File.join(path, "#{name}.inspect.txt")
     
     should "Work for #{name}" do
-      @input = CSS::Document.load file
+      @input = Lesstidy::Document.load file
       control = File.open(inspect) { |f| f.read }
       assert_equal control.strip, @input.inspect.strip
     end

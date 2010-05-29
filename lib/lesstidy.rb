@@ -1,10 +1,9 @@
 require "treetop"
 
-module CSS
+module Lesstidy
   prefix = File.join(File.dirname(__FILE__), 'lesstidy')
 
-  require "#{prefix}/css_syntax"
-  Treetop.load "#{prefix}/css"
+  Treetop.load "#{prefix}/less.treetop"
 
   autoload :Nodes,     "#{prefix}/nodes"
   autoload :Renderer,  "#{prefix}/renderer"

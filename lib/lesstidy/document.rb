@@ -1,8 +1,8 @@
-module CSS
-  class Document < CSS::Nodes::Document
+module Lesstidy
+  class Document < Lesstidy::Nodes::Document
     def initialize(str)
       super
-      parser = CSSParser.new
+      parser = LessParser.new
       tree = parser.parse(str)
       tree.build self
     end

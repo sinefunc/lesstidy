@@ -1,4 +1,4 @@
-module CSS
+module Lesstidy
   class Config
     class << self
       NoRootError = Class.new(Exception)

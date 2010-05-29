@@ -1,7 +1,7 @@
-module CSS
+module Lesstidy
   module Nodes
     class Node
-      include CSS::Renderer
+      include Lesstidy::Renderer
 
       attr_reader :elements
       attr_accessor :parent
