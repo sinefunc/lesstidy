@@ -1,0 +1,82 @@
+. [document]
+. . [ruleset]
+. . . [S] .blog-features
+. . . [M]    .hr-section
+. . . [M]    .non-list
+. . . [M]    .split-60
+. . . [R]    margin: 0
+. . . [R]    overflow: hidden
+. . . [ruleset]
+. . . . [S] .ad-rect
+. . . . [R]    text-align: center
+. . . . [R]    padding-top: 10px
+. . . [ruleset]
+. . . . [S] li
+. . . . [R]    padding-top: 10px
+. . . . [R]    border-bottom: solid 1px #ccc
+. . . . [R]    overflow: hidden
+. . . . [ruleset]
+. . . . . [S] h4
+. . . . . [S] p
+. . . . . [R]    margin: 0
+. . . . . [R]    padding: 0
+. . . . [ruleset]
+. . . . . [S] p.image
+. . . . . [ruleset]
+. . . . . . [S] img
+. . . . . . [R]    float: right
+. . . . . . [R]    width: 150px
+. . . . . . [R]    height: 110px
+. . . . . . [R]    background: #cecccc
+. . . . . . [R]    padding: 2px
+. . . . . . [R]    border: solid 1px (#cecccc * 0.8)
+. . . . . . [R]    margin: 0 0 10px 10px
+. . . . . [ruleset]
+. . . . . . [S] a:hover img
+. . . . . . [R]    border: solid 2px (@link-color * 1.5)
+. . . . . . [R]    padding: 1px
+. . . . [ruleset]
+. . . . . [S] p.date
+. . . . . [R]    text-transform: uppercase
+. . . . . [R]    color: #888
+. . . . . [R]    letter-spacing: 1px
+. . . . . [R]    font-size: 0.8em
+. . . . . [R]    font-weight: bold
+. . . . . [R]    padding-bottom: 5px
+. . . . [ruleset]
+. . . . . [S] h4
+. . . . . [R]    font-size: 1.4em
+. . . . [ruleset]
+. . . . . [S] p.description
+. . . . . [R]    margin: 10px 0
+. . . [ruleset]
+. . . . [S] li:last-child
+. . . . [R]    border-bottom: 0
+. . [ruleset]
+. . . [S] .blog-more-posts
+. . . [M]    .w
+. . . [M]    .hr-section
+. . . [M]    .non-list
+. . . [ruleset]
+. . . . [S] ul
+. . . . [R]    overflow: hidden
+. . . [ruleset]
+. . . . [S] li
+. . . . [R]    width: 20%
+. . . . [R]    float: left
+. . . . [R]    display: block
+. . . . [R]    padding: 10px 0
+. . . [ruleset]
+. . . . [S] h4
+. . . . [S] p
+. . . . [R]    margin: 0
+. . . . [R]    padding: 0 10px 0 0
+. . . . [R]    font-size: 1em
+. . . . [R]    line-height: 1.5em
+. . . [ruleset]
+. . . . [S] a
+. . . . [R]    color: #444
+. . . [ruleset]
+. . . . [S] p.date
+. . . . [R]    color: #888
+. . . . [R]    font-size: 0.9em

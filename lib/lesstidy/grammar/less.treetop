@@ -45,20 +45,20 @@ module Lesstidy
     end
   
     rule rule_group_item
-      mixin {
-      } /
+      ruleset /
       stylerule {
         def build( ruleset )
           rule = Lesstidy::Nodes::Rule.new property.text_value, value.text_value
           ruleset << rule
         end
       } /
+      mixin {
+      } /
       block_comment {
         def build(ruleset)
           ruleset << Lesstidy::Nodes::Comment.new(comment.text_value)
         end
-      } /
-      ruleset
+      }
     end
   
     rule selector_group
@@ -66,9 +66,9 @@ module Lesstidy
     end
   
     rule selector
-      ( [A-Za-z0-9] / '>' / ':' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / [\n\t ]+ / '&' )+ {
+      ( [A-Za-z0-9] / ':' / '>' / '*' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / [\n\t ]+ / '&' )+ {
         def build(ruleset)
-          sel = Lesstidy::Nodes::Selector.new self.text_value
+          sel = Lesstidy::Nodes::Selector.new self.text_value.strip
           ruleset << sel
         end
       }

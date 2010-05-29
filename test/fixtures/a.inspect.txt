@@ -1,29 +1,29 @@
 . [document]
 . . [ruleset]
-. . . [S] .blog-more-posts  
+. . . [S] .blog-more-posts
 . . . [M]    .w
 . . . [M]    .hr-section
 . . . [M]    .non-list
 . . . [ruleset]
-. . . . [S] ul              
+. . . . [S] ul
 . . . . [R]    overflow: hidden
 . . . [ruleset]
-. . . . [S] li              
+. . . . [S] li
 . . . . [R]    width: 20%
 . . . . [R]    float: left
 . . . . [R]    display: block
 . . . . [R]    padding: 10px 0
 . . . [ruleset]
 . . . . [S] h4
-. . . . [S] p           
+. . . . [S] p
 . . . . [R]    margin: 0
 . . . . [R]    padding: 0 10px 0 0
 . . . . [R]    font-size: 1em
 . . . . [R]    line-height: 1.5em
 . . . [ruleset]
-. . . . [S] a               
+. . . . [S] a
 . . . . [R]    color: #444
 . . . [ruleset]
-. . . . [S] p.date          
+. . . . [S] p.date
 . . . . [R]    color: #888
 . . . . [R]    font-size: 0.9em

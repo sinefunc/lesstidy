@@ -4,7 +4,12 @@ module Lesstidy
       super
       parser = LessParser.new
       tree = parser.parse(str)
-      tree.build self
+
+      if tree
+        tree.build self
+      else
+        puts parser.failure_message
+      end
     end
     
     def self.load(filename)

@@ -3,10 +3,10 @@ To do:
    - Mixin declarations
    - Var declarations
    - import lines
- - Presets
  - .lesstidyopts
 
 Done:
+ - Presets
  - bin/lesstidy
  - blackbox testing
  - Comments

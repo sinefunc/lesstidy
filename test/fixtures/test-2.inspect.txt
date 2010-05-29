@@ -1,7 +1,7 @@
 . [document]
 . . [ruleset]
 . . . [S] #menu a
-. . . [S] div 
+. . . [S] div
 . . . [R]    color: red
 . . . [R]    font-weight: bold
 . . /* More */
@@ -10,7 +10,7 @@
 . . . [S] td
 . . . [S] tr
 . . . [S] #menu a:hover div #lol yes yes .something span.clear-fix
-. . . [S] table 
+. . . [S] table
 . . . [R]    text-align: center
 . . . [M]    .black
 . . . [R]    font-weight: bold
@@ -18,20 +18,20 @@
 . . . [R]    cursor: default
 . . . [R]    background-repeat: no-repeat
 . . [ruleset]
-. . . [S] a:hover 
+. . . [S] a:hover
 . . . [M]    .corner(5px)
 . . . [R]    background: url(foo.png)
 . . . /* Superstar */
 . . . [ruleset]
-. . . . [S] span 
+. . . . [S] span
 . . . . [R]    font-weight: bold
 . . . [ruleset]
 . . . . [S] span
 . . . . [S] a:hover
 . . . . [S] a:active
 . . . . [S] a:hover span
-. . . . [S] a:active span 
+. . . . [S] a:active span
 . . . . [R]    text-decoration: underline
 . . . . [ruleset]
-. . . . . [S] strong em 
+. . . . . [S] strong em
 . . . . . [R]    color: blue
