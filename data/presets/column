@@ -1,6 +1,6 @@
---selector-width=20
+--selector-width=19
 --subrule-indent=2
---open-brace-spaces=|s
+--open-brace-spaces=s|s
 --close-brace-spaces=|n
 --semicolon-spaces=|s
 --colon-spaces=|s

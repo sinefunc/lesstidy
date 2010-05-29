@@ -26,7 +26,6 @@ module CUtil
       options[:regexp] ||= /([;,])/
       options[:indent] ||= 0
       options[:first_indent] ||= options[:indent]
-      options[:wrap_spaces] = true  if options[:wrap_spaces].nil?
 
       width = options[:width]
 
@@ -40,18 +39,24 @@ module CUtil
         line_width = first_indent ? (width - first_indent) : width
         if nl.rstrip.size > line_width
           # To wrap...
-          a << (indent + chunk.lstrip)
+          new_chunk = (indent + chunk.lstrip)
+          if a == ['']
+            a = [new_chunk]
+          else
+            a << new_chunk
+          end
+
           first_indent = false
 
           # If the new line exceeds the line width, rewrap!
           if a[-1].size > width and not options[:no_rewrap]
             a[-1] = String.new(a[-1])  unless a[-1].is_a? String
             wrapped = [a[-1]]
-            wrapped = a[-1].wrap(args.merge({ :regexp => /( +)/, :no_rewrap => true, :array => true, :pad => false }))  if options[:wrap_spaces]
-            a = a[0..-2] + wrapped
+            wrapped = a[-1].wrap(args.merge({ :regexp => /( +)/, :no_rewrap => true, :array => true, :pad => false }))
+            a = a[0..-2]
+            a << wrapped  if wrapped.size > 0
           end
         else
-          # Or not to wrap
           a[-1] = nl
         end
         a

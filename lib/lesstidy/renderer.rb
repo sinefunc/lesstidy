@@ -94,10 +94,10 @@ module Lesstidy
       r = CUtil::String.new
       r.replace    selector_strs.join(style.comma)
       r.prepend!   indent_str
-      r.wrap!      :width  => style.selector_width,
-                   :pad    => true,
-                   :wrap_spaces => style.selector_wrap,
-                   :indent => indent  unless style.selector_width.nil?
+      r.wrap!      :width     => style.selector_width,
+                   :pad       => true,
+                   :no_rewrap => (!style.selector_wrap),
+                   :indent    => indent  unless style.selector_width.nil?
       r.append!    style.open_brace
       r.to_s
     end

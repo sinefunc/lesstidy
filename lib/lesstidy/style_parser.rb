@@ -71,7 +71,11 @@ module Lesstidy
 
         # Yeh, no-sel-wrap and sel-width are NOT mutex... ambiguous :|
         o.on('--no-selector-wrap', 'disables wrapping of long selectors (LessCSS compatibility)') do
-          opt[:selector_wrap] = nil
+          opt[:selector_wrap] = false
+        end
+
+        o.on('--selector-wrap', 'enables wrapping of long selectors') do
+          opt[:selector_wrap] = true
         end
 
         o.on('--no-selector-column', 'disables selector column mode') do |n|
