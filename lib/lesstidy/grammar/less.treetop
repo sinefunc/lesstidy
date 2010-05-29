@@ -75,7 +75,7 @@ module Lesstidy
     end
   
     rule mixin
-      ws name:('.' [a-zA-Z0-9_\-]+) '(' params:([a-zA-Z0-9 _\-@]*) ')' ws ';' {
+      ws name:('.' [a-zA-Z0-9_\-]+) '(' params:(value_string) ')' ws ';' {
         def build(ruleset)
           mixin = Lesstidy::Nodes::Mixin.new name.text_value, params.text_value
           ruleset << mixin
@@ -99,6 +99,11 @@ module Lesstidy
   
     rule value
       (!';' . )*
+    end
+    
+    # TODO: Add balancing of ()'s
+    rule value_string
+      [a-zA-Z0-9 \[\]\*\<\>\.\#_\-@]*
     end
   
     rule block_comment

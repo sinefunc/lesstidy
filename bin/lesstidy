@@ -85,7 +85,7 @@ doc = Lesstidy::Document.new(contents)
 if options.debug
   output << doc.inspect.strip
 else
-  output << wrapper[:pre] << doc.to_css(style).strip << wrapper[:post]
+  output << wrapper[:pre] << doc.to_css(style).strip << wrapper[:post] << "\n"
 end
 
 input.close
