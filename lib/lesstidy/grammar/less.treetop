@@ -103,7 +103,7 @@ module Lesstidy
     
     # TODO: Add balancing of ()'s
     rule value_string
-      [a-zA-Z0-9 \[\]\*\<\>\.\#_\-@]*
+      [a-zA-Z0-9 \[\]\*\<\>\.,\#_\-@]*
     end
   
     rule block_comment

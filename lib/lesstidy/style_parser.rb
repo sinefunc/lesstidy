@@ -69,6 +69,10 @@ module Lesstidy
           opt[:property_width] = n.to_i
         end
 
+        o.on('--property-indent', '=N', "number of spaces to indent properties with") do |n|
+          opt[:property_indent] = n.to_i
+        end
+
         # Yeh, no-sel-wrap and sel-width are NOT mutex... ambiguous :|
         o.on('--no-selector-wrap', 'disables wrapping of long selectors (LessCSS compatibility)') do
           opt[:selector_wrap] = false
