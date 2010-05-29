@@ -10,6 +10,15 @@ class TestBlackbox < Test::Unit::TestCase
       @input = Lesstidy::Document.load file
       control = File.open(inspect) { |f| f.read }
       assert_equal control.strip, @input.inspect.strip
+
+      # Test default
+      output = File.open(File.join(path, "#{name}.default.css")) { |f| f.read }
+      assert_equal @input.to_css.strip, output.strip
+
+      # Test terse
+      style = Lesstidy::Style.new "terse"
+      output = File.open(File.join(path, "#{name}.terse.css")) { |f| f.read }
+      assert_equal @input.to_css(style).strip, output.strip
     end
   end
 end

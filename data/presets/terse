@@ -1,0 +1,5 @@
+--open-brace-spaces=s|s
+--close-brace-spaces=|n
+--no-wrap
+--no-selector-wrap
+--semicolon-spaces=|s

@@ -109,8 +109,8 @@ module Lesstidy
 
       indent_value = style.property_indent
 
-      if style.selector_width.nil?
-        indent_value += style.subrule_indent * args.depth  
+      if style.selector_width.nil? # Not column mode?
+        indent_value += style.subrule_indent * (args.depth)
       else
         indent_value += style.selector_width
       end
@@ -120,7 +120,7 @@ module Lesstidy
       r.wrap!    :width        => style.wrap_width,
                  :indent       => indent_value, 
                  :first_indent => indent  unless style.wrap_width.nil?
-      r.gsub!    /^/, ' '*(style.property_indent*(args.depth+1))  if style.wrap_width.nil?
+      r.gsub!    /^/, ' ' * indent_value  if style.wrap_width.nil? and /\{.*\n.*$/.match(style.open_brace)
       r.to_s
     end
 

@@ -10,7 +10,8 @@ require 'ostruct'
 options = OpenStruct.new({
   :input  => '-',
   :output => '-',
-  :debug  => false
+  :debug  => false,
+  :style  => Hash.new
 })
 
 opts = OptionParser.new do |o|
@@ -26,10 +27,12 @@ opts = OptionParser.new do |o|
   end
 
   # Help
-  o.on_tail("-h", "--help", "show this message") do
+  o.on("-h", "--help", "show this message") do
     puts opts
     exit
   end
+
+  Lesstidy::StyleParser.parse o, options.style
 end
 
 begin
@@ -61,13 +64,13 @@ rescue Errno::ENOENT
 end
 
 contents = input.read
-style = Lesstidy::Style.new
+style = Lesstidy::Style.new(options.style)
 doc = Lesstidy::Document.new(contents)
 
 if options.debug
   output << doc.inspect.strip
 else
-  output << doc.to_css.strip
+  output << doc.to_css(style).strip
 end
 
 input.close

@@ -75,13 +75,13 @@ module Lesstidy
     end
   
     rule mixin
-      ws name:('.' [a-z]*) '(' params:([a-zA-Z0-9 _\-@]*) ')' ws ';' {
+      ws name:('.' [a-zA-Z0-9_\-]+) '(' params:([a-zA-Z0-9 _\-@]*) ')' ws ';' {
         def build(ruleset)
           mixin = Lesstidy::Nodes::Mixin.new name.text_value, params.text_value
           ruleset << mixin
         end
       } /
-      ws name:('.' [a-z]*) ws ';' {
+      ws name:('.' [a-zA-Z0-9_\-]*) ws ';' {
         def build(ruleset)
           mixin = Lesstidy::Nodes::Mixin.new name.text_value
           ruleset << mixin
