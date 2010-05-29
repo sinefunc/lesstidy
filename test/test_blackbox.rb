@@ -17,11 +17,12 @@ class TestBlackbox < Test::Unit::TestCase
 
       # Test terse
       style = Lesstidy::Style.new "terse"
-      output = File.open(File.join(path, "#{name}.terse.css")) { |f| f.read }
-      assert_equal @input.to_css(style).strip, output.strip
+      control = File.open(File.join(path, "#{name}.terse.css")) { |f| f.read }
+      unknown = @input.to_css(style).strip
+      assert_equal unknown, control.strip
 
       @input2 = Lesstidy::Document.load File.join(path, "#{name}.terse.css")
-      assert_equal @input.inspect, @input2.inspect
+      assert_equal @input.to_css(style).strip, @input2.to_css(style).strip
     end
   end
 end
