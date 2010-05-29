@@ -74,13 +74,18 @@ if options.style == {}
 end
 
 contents = input.read
+wrapper = {
+  :pre =>  /^[ \n\t]*/.match(contents).to_s,
+  :post => /[ \n\t]*$/.match(contents).to_s
+}
+
 style = Lesstidy::Style.new(options.style)
 doc = Lesstidy::Document.new(contents)
 
 if options.debug
   output << doc.inspect.strip
 else
-  output << doc.to_css(style).strip << "\n"
+  output << wrapper[:pre] << doc.to_css(style).strip << wrapper[:post]
 end
 
 input.close
