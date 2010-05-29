@@ -8,16 +8,19 @@ module CUtil
       self << str
     end
 
-    def wrap!(*args)
-      self.replace(self.wrap(*args))
+    def wrap!(args = {})
+      temp = self.wrap(args)
+      self.replace(temp)
+      #self.replace(self.wrap(*args))
     end
 
-    def wrap(*args)
+    def wrap(args = {})
       # Inherit the given hashes
-      options = args.inject({}) { |a, i| a.merge! i }
+      options = args
       options[:regexp] ||= /(?<=[;,])/
       options[:indent] ||= 0
       options[:first_indent] ||= options[:indent]
+      options[:wrap_spaces] = true  if options[:wrap_spaces].nil?
 
       width = options[:width]
 
@@ -37,7 +40,9 @@ module CUtil
           # If the new line exceeds the line width, rewrap!
           if a[-1].size > width and not options[:no_rewrap]
             a[-1] = String.new(a[-1])  unless a[-1].is_a? String
-            a = a[0..-2] + a[-1].wrap(*(args + [{ :regexp => /(?<= )/, :no_rewrap => true, :array => true, :pad => false }]))
+            wrapped = [a[-1]]
+            wrapped = a[-1].wrap(args.merge({ :regexp => /(?<= )/, :no_rewrap => true, :array => true, :pad => false }))  if options[:wrap_spaces]
+            a = a[0..-2] + wrapped
           end
         else
           # Or not to wrap

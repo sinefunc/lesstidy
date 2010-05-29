@@ -48,7 +48,6 @@ module Lesstidy
 
       selectors = @elements.select { |e| e.is_a? Nodes::Selector }
       items     = @elements.select { |e| e.is_a? Nodes::Mixin or e.is_a? Nodes::Rule }
-      subrules  = @elements.select { |e| e.is_a? Nodes::Ruleset }
       rnc       = @elements.select { |e| e.is_a? Nodes::Ruleset or e.is_a? Nodes::Comment }
 
       # Start: selectors
@@ -59,7 +58,7 @@ module Lesstidy
       indent = r.split("\n")[-1].size
       r << items_to_css(items, indent, style, args)
 
-      # Rules and Comments (rnc)
+      # Subrules and Comments (rnc)
       r << rules_and_comments_to_css(rnc, style, args)
 
       # Close brace
@@ -82,7 +81,7 @@ module Lesstidy
     end
 
     def selector_to_css(style, *args)
-      @selector.strip
+      @selector.strip.squeeze(' ')
     end
 
     # Gets the rendered string for a given set of Selectors
@@ -97,12 +96,13 @@ module Lesstidy
       r.prepend!   indent_str
       r.wrap!      :width  => style.selector_width,
                    :pad    => true,
-                   :indent => indent  if style.selector_width > 0
+                   :wrap_spaces => style.selector_wrap,
+                   :indent => indent  unless style.selector_width.nil?
       r.append!    style.open_brace
       r.to_s
     end
 
-    # Gets the rendered string for a given set of Mixins and Rules
+    # Gets the rendered string for a given set of Mixins and Rules (what's inside {}'s)
     # Delegate method of ruleset_to_css
     def items_to_css(items, indent, style, args)
       items_css = items.map { |item| item.to_css(style) + style.semicolon }
@@ -119,7 +119,8 @@ module Lesstidy
       r.replace  items_css.join('')
       r.wrap!    :width        => style.wrap_width,
                  :indent       => indent_value, 
-                 :first_indent => indent
+                 :first_indent => indent  unless style.wrap_width.nil?
+      r.gsub!    /^/, ' '*(style.property_indent*(args.depth+1))  if style.wrap_width.nil?
       r.to_s
     end
 
@@ -136,6 +137,9 @@ module Lesstidy
         r << style.subrule_before
         r << item_strs.join('')
       end
+
+      # Remove trailing \n's
+      r.gsub! /\n+$/, "\n"
       r
     end
 

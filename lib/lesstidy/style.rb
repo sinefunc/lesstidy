@@ -18,26 +18,58 @@ module Lesstidy
     end
 
     protected
+    # Columnar:
+    # def defaults
+    #   { :wrap_width      => 110,    # nil for no wrap
+    #     :selector_width  => 20,     # nil for no columning
+    #     :open_brace      => "{ ",
+    #     :close_brace     => "}\n",
+    #     :document_comment => "\n%s\n",
+    #     :semicolon       => "; ",   # Add NLs after if needed
+    #     :property_width  => nil,
+    #     :colon           => ": ",   # Add spaces if needed
+    #     :comma           => ", ",   # Spaces if needed
+    #     :subrule_indent  => 2,      # Indentation of sub rules
+    #     :subrule_before  => "\n",   # Separators of subrules
+    #     :property_indent => 2,      # How much to indent properties on their next line (will take selector width into account)
+    #     :selector_wrap   => false,  # Wrap long selectors?
+    #   }
+    # end
+
+    # One line
+    # def defaults
+    #   { :wrap_width      => nil,    # nil for no wrap
+    #     :selector_width  => nil,    # nil for no columning
+    #     :open_brace      => " { ",
+    #     :close_brace     => "}\n",
+    #     :document_comment => "\n%s\n",
+    #     :semicolon       => "; ",   # Add NLs after if needed
+    #     :property_width  => nil,
+    #     :colon           => ": ",   # Add spaces if needed
+    #     :comma           => ", ",   # Spaces if needed
+    #     :subrule_indent  => 2,      # Indentation of sub rules
+    #     :subrule_before  => "\n",   # Separators of subrules
+    #     :property_indent => 2,      # How much to indent properties on their next line (will take selector width into account)
+    #     :selector_wrap   => false,  # Wrap long selectors?
+    #   }
+    # end
+
+    # Normal
     def defaults
-      { :wrap_width      => 110,    # nil for no wrap
-        :selector_width  => 40,     # nil for no columning
-        :open_brace      => "{ ",
-        :close_brace     => "}\n",
+      { :wrap_width      => nil,    # nil for no wrap
+        :selector_width  => nil,    # nil for no columning
+        :open_brace      => " {\n",
+        :close_brace     => "}\n\n",
         :document_comment => "\n%s\n",
-        :semicolon       => "; ",   # Add NLs after if needed
+        :semicolon       => ";\n",   # Add NLs after if needed
         :property_width  => nil,
         :colon           => ": ",   # Add spaces if needed
         :comma           => ", ",   # Spaces if needed
         :subrule_indent  => 2,      # Indentation of sub rules
         :subrule_before  => "\n",   # Separators of subrules
         :property_indent => 2,      # How much to indent properties on their next line (will take selector width into account)
+        :selector_wrap   => false,  # Wrap long selectors?
       }
-      # --wrap-width=110
-      # --selector-width=40
-      # --no-selector-column
-      # --open-brace-whitespace="|s"
-      # --document-comment-whitespace="n|n"
-      # --semicolon-whitespace="|s"
     end
   end
 end
