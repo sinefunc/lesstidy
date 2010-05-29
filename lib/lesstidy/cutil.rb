@@ -58,7 +58,7 @@ module CUtil
       end
 
       # Pad the last line with spaces
-      ret[-1] = ret[-1] + (" " * (width - ret[-1].size))  if options[:pad]
+      ret[-1] = ret[-1] + (" " * [width - ret[-1].size, 0].max)  if options[:pad]
 
       # Stringify if needed
       options[:array] ? ret : ret.join("\n")
