@@ -6,3 +6,4 @@
 --colon-spaces=|s
 --no-selector-wrap
 --wrap-width=120
+--property-indent=3
