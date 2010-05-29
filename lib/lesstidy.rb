@@ -3,7 +3,7 @@ require "treetop"
 module Lesstidy
   prefix = File.join(File.dirname(__FILE__), 'lesstidy')
 
-  Treetop.load "#{prefix}/less.treetop"
+  Treetop.load "#{prefix}/grammar/less.treetop"
 
   autoload :Nodes,     "#{prefix}/nodes"
   autoload :Renderer,  "#{prefix}/renderer"
