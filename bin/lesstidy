@@ -71,7 +71,6 @@ end
 
 if options.style == {}
   options.style = Lesstidy::StyleParser.defaults
-  puts options.style.inspect
 end
 
 contents = input.read
