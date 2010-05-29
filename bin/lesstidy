@@ -69,6 +69,11 @@ rescue Errno::ENOENT
   exit
 end
 
+if options.style == {}
+  options.style = Lesstidy::StyleParser.defaults
+  puts options.style.inspect
+end
+
 contents = input.read
 style = Lesstidy::Style.new(options.style)
 doc = Lesstidy::Document.new(contents)

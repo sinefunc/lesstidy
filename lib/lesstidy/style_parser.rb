@@ -19,6 +19,21 @@ module Lesstidy
         Dir[preset_path '**'].map { |file| File.basename(file) }
       end
 
+      # Returns the defaults
+      def defaults
+        dir = Dir.pwd
+        while true do
+          fname = File.join(dir, '.lesstidyopts')
+
+          return File.open(fname) { |f| f.read.split("\n").reject(&:empty?) } \
+             if File.exists?(fname)
+
+          _dir = File.expand_path(File.join(dir, '..'))
+          return []  if dir == _dir
+          dir = _dir
+        end
+      end
+
       # Input: array of options, or hash, or string?
       # Output: hash to be fed into Style.new
       def load_options(args)
