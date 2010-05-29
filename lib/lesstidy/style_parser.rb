@@ -1,14 +1,22 @@
 module Lesstidy
   class StyleParser
     class << self
+      def preset_path(*args)
+        @preset_path ||= File.expand_path(File.join(File.dirname(__FILE__), %w[.. .. data presets]))
+        File.join(@preset_path, *args)
+      end
+
       def load_preset(preset_name = '')
-        preset_path = File.expand_path(File.join(File.dirname(__FILE__), %w[.. .. data presets]))
         preset_file = File.join(preset_path, preset_name)
 
         raise PresetNotFoundError, preset_file unless File.exists?(preset_file)
         preset_data = File.open(preset_file) { |f| f.read.split("\n") }
 
         load_options preset_data
+      end
+
+      def presets
+        Dir[preset_path '**'].map { |file| File.basename(file) }
       end
 
       # Input: array of options, or hash, or string?

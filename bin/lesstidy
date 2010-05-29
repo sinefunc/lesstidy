@@ -33,6 +33,12 @@ opts = OptionParser.new do |o|
   end
 
   Lesstidy::StyleParser.parse o, options.style
+
+  o.separator ""
+  o.separator "Available presets:"
+  Lesstidy::StyleParser.presets.each do |preset|
+    o.separator("        --preset=#{preset}")
+  end
 end
 
 begin
@@ -70,7 +76,7 @@ doc = Lesstidy::Document.new(contents)
 if options.debug
   output << doc.inspect.strip
 else
-  output << doc.to_css(style).strip
+  output << doc.to_css(style).strip << "\n"
 end
 
 input.close
