@@ -8,7 +8,7 @@ module Lesstidy
       if tree
         tree.build self
       else
-        puts parser.failure_message
+        raise Lesstidy::ParseError, parser.failure_message
       end
     end
     
