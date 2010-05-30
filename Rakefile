@@ -5,11 +5,12 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "lesstidy"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
-    gem.email = "rico@ambiescent.com"
+    gem.summary = "CSS formatting tool"
+    gem.description = "LessTidy takes your CSS (or LessCSS) file and rewrites it in a more readable format."
+    gem.email = "rico@sinefunc.com"
     gem.homepage = "http://github.com/rstacruz/lesstidy"
-    gem.authors = ["Rico Sta. Cruz"]
+    gem.authors = ["Rico Sta. Cruz", "Sinefunc, Inc."]
+    gem.add_dependency "treetop"
     gem.add_development_dependency "contest"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
