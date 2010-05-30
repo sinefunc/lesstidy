@@ -7,6 +7,8 @@ module Lesstidy
       end
 
       def load_preset(preset_name = '')
+        return {}  if preset_name == 'default'
+
         preset_file = File.join(preset_path, preset_name)
 
         raise PresetNotFoundError, preset_file unless File.exists?(preset_file)
@@ -16,7 +18,7 @@ module Lesstidy
       end
 
       def presets
-        Dir[preset_path '**'].map { |file| File.basename(file) }
+        ['default'] + Dir[preset_path '**'].map { |file| File.basename(file) }
       end
 
       # Returns the defaults

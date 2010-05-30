@@ -14,6 +14,7 @@ module Lesstidy
   autoload :Config,      "#{prefix}/config"
   autoload :StyleParser, "#{prefix}/style_parser"
 
-  class Error < Exception; end
-  class PresetNotFoundError < Error; end
+  Error = Class.new(::StandardError)
+  PresetNotFoundError = Class.new(Error)
+  ParseError          = Class.new(Error)
 end
