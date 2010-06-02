@@ -1,0 +1,6 @@
+--files="manual/*/*"
+--files="manual/*"
+--files="AUTHORS"
+--files="LICENSE"
+--files="CHANGELOG"
+#--main="manual/LessTidy.md"

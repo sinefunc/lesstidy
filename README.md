@@ -6,8 +6,8 @@ A CSS tidying tool.
 Installation (for text editors)
 -------------------------------
 
- - For VIM users, install `lesstidy-vim`.
- - For Textmate users, install `lesstidy
+ - For VIM users: http://github.com/sinefunc/lesstidy-vim
+ - For Textmate users: http://github.com/sinefunc/lesstidy-textmate
 
 Installation (command line)
 ---------------------------
