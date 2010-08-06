@@ -52,3 +52,35 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+def say_status(what, status, priority=0)
+  color = 32
+  color = 30  if priority == -1
+  color = 31  if priority == 1
+  status.gsub!(ENV['HOME'], '~')
+  status += "/"  if File.directory?(File.expand_path(status))
+  puts "\033[1;#{color}m%20s\033[0m  %s" % [what, status]
+end
+
+def create_fixture_file(fname, lt_options)
+  cmd = "./bin/lesstidy #{lt_options} > \"#{fname}\""
+  if File.exists?(fname)
+    say_status :skip, fname, -1
+  else
+    say_status :create, fname
+    system(cmd)
+  end
+end
+
+task :create_fixtures do
+  path = 'test/fixtures'
+  Dir["#{path}/*.control.css"].each do |file|
+    basename = File.basename(file)
+    name = basename.split('.')[0]
+
+    create_fixture_file "#{path}/#{name}.inspect.txt", "-d \"#{file}\""
+    ['column', 'default', 'terse'].each do |preset|
+      create_fixture_file "#{path}/#{name}.#{preset}.css", "--preset=#{preset} \"#{file}\""
+    end
+  end
+end

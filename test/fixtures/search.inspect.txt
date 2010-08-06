@@ -1,0 +1,63 @@
+. [document]
+. . /* Facet filter */
+. . [ruleset]
+. . . [S] .facet-filter
+. . . [M]    .w
+. . . [M]    .non-list
+. . . [ruleset]
+. . . . [S] h3
+. . . . [R]    font-size: 1.2em
+. . . . [R]    font-weight: normal
+. . . . [R]    margin: 0 10px 10px 10px
+. . . . [R]    padding: 0 0 10px 0
+. . . . [R]    border-bottom: solid 1px #ddd
+. . . . [R]    line-height: 0.8em
+. . . [ruleset]
+. . . . [S] .c
+. . . . [R]    overflow: hidden
+. . . . [R]    background: white
+. . . . [R]    padding: 10px 1px 15px 1px
+. . . . [R]    border: solid 1px #ccc
+. . . . [M]    .border-radius(4px)
+. . . . [M]    .box-shadow(#ddd 0px 3px)
+. . . . [R]    border-top: solid 2px @red
+. . . [ruleset]
+. . . . [S] ul a
+. . . . [R]    clear: both
+. . . . [R]    display: block
+. . . . [R]    overflow: hidden
+. . . . [R]    padding: 1px 9px
+. . . . [ruleset]
+. . . . . [S] strong
+. . . . . [R]    float: left
+. . . . [ruleset]
+. . . . . [S] em
+. . . . . [R]    float: right
+. . . . . [R]    font-style: normal
+. . . . . [R]    font-weight: normal
+. . . . . [R]    color: #888
+. . . . [ruleset]
+. . . . . [S] :hover
+. . . . . [R]    text-decoration: none
+. . . . . [R]    background: #eee
+. . . [ruleset]
+. . . . [S] a.toggle
+. . . . [R]    text-align: center
+. . . . [R]    display: block
+. . . . [R]    padding: 0 0 0 0
+. . . . [R]    margin: -8px auto 0 auto
+. . . . [R]    width: 50%
+. . . . [R]    background: white
+. . . . [R]    color: #888
+. . . . [M]    .border-radius(10px)
+. . . . [R]    height: 18px
+. . . . [R]    line-height: 18px
+. . . . [R]    border-bottom: solid 1px #ccc
+. . . . [R]    font-size: 0.9em
+. . . . [ruleset]
+. . . . . [S] strong
+. . . . . [R]    font-weight: normal
+. . . . [ruleset]
+. . . . . [S] :hover
+. . . . . [R]    text-decoration: none
+. . . . . [R]    color: #444

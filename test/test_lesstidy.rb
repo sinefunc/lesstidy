@@ -6,11 +6,14 @@ class TestLesstidy < Test::Unit::TestCase
     pass2: "div + div { color: red; }",
     pass3: "div[name=foo] { color: red; }",
     pass4: "div[name='foo'] { color: red; }",
-    pass5: "div[name='foo'] { .gradient('$*&!*@#()&!#'); }"
+    pass5: "div[name='foo'] { .gradient('$*&!*@#()&!#'); }",
+    pass6: "tt { a: b; }",
   }
 
   fail_tests = {
-    fail1: "div[name='foo'] { .gradient($*&!(*@#&!#); }"
+    fail1: "div[name='foo'] { .gradient($*&!(*@#&!#); }",
+    fail2: "tt { a: b }",
+    fail3: "tt { a }",
   }
 
   pass_tests.each do |key, test|

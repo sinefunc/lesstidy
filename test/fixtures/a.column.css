@@ -1,0 +1,8 @@
+.blog-more-posts    { .w; .hr-section; .non-list; 
+  ul                { overflow: hidden; }
+  li                { width: 20%; float: left; display: block; padding: 10px 0; }
+  h4, p             { margin: 0; padding: 0 10px 0 0; font-size: 1em; line-height: 1.5em; }
+  a                 { color: #444; }
+  p.date            { color: #888; font-size: 0.9em; }
+}
+
