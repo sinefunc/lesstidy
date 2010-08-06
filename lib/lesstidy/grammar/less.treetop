@@ -8,6 +8,10 @@ require File.dirname(__FILE__) + "/less_syntax.rb"
 #    Selector
 #    Mixin
 #    Stylerule (prop/val)
+#
+# selector {
+#   property: value; .mixin; .mixin();
+# }
 
 module Lesstidy
   grammar Less
@@ -71,7 +75,7 @@ module Lesstidy
     end
 
     rule selector
-      ( [A-Za-z0-9] / '+' / quoted_string / '~' / '$' / ':' / '>' / '*' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / [\n\t ]+ / '&' )+ {
+      ( quoted_string / [A-Za-z0-9~$:>#&=] / [\+\.\*\-\(\)\[\]] / [\n\t ] )+ {
         def build(ruleset)
           sel = Lesstidy::Nodes::Selector.new self.text_value.strip
           ruleset << sel
@@ -108,7 +112,7 @@ module Lesstidy
     
     # TODO: Add balancing of ()'s
     rule value_string
-      [a-zA-Z0-9 \[\]\*\<\>\.,\#_\-@]*
+      ( quoted_string / [a-zA-Z0-9 \[\]\*\<\>\.,\#_\-@] )* 
     end
   
     rule block_comment
