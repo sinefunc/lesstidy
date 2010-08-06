@@ -20,53 +20,47 @@ module CUtil
       a
     end
 
-    def wrap(args = {})
-      # Inherit the given hashes
-      options = args
-      options[:regexp] ||= /([;,])/
-      options[:indent] ||= 0
-      options[:first_indent] ||= options[:indent]
+    # Options:
+    #   width:        (Integer) The text width
+    #
+    # Optional options:
+    #   first_indent: (Integer) how much the first line will be padded with. No
+    #                 actual padding will be added, but it'll be factored
+    #                 into wrapping.
+    #   pad:          (Boolean) Pad the last line with spaces to make the width
+    #   array:        (Boolean) return an array if true, else a string
+    #
+    def wrap(options)
+      regexp  = options[:regexp] || /([;,]\s*)/
+      width   = options[:width]
 
-      width = options[:width]
-
-      first_indent = options[:first_indent]
-      indent = ''
-      indent = ' ' * options[:indent]  if options[:indent]
-
-      ret = self.lasplit(options[:regexp]).inject(['']) do |a, chunk|
-        nl = a[-1] + chunk
-
-        line_width = first_indent ? (width - first_indent) : width
-        if nl.rstrip.size > line_width
-          # To wrap...
-          new_chunk = (indent + chunk.lstrip)
-          if a == ['']
-            a = [new_chunk]
-          else
-            a << new_chunk
-          end
-
-          first_indent = false
-
-          # If the new line exceeds the line width, rewrap!
-          if a[-1].size > width and not options[:no_rewrap]
-            a[-1] = String.new(a[-1])  unless a[-1].is_a? String
-            wrapped = [a[-1]]
-            wrapped = a[-1].wrap(args.merge({ :regexp => /( +)/, :no_rewrap => true, :array => true, :pad => false }))
-            a = a[0..-2]
-            a << wrapped  if wrapped.size > 0
-          end
-        else
-          a[-1] = nl
-        end
-        a
-      end
+      ret = array_wrap(self.split(regexp), options)
 
       # Pad the last line with spaces
       ret[-1] = ret[-1] + (" " * [width - ret[-1].size, 0].max)  if options[:pad]
 
-      # Stringify if needed
+      # Return as array or string
       options[:array] ? ret : ret.join("\n")
+    end
+
+  private
+    def array_wrap(split_arr, o)
+      findent = o[:first_indent] || o[:indent] || 0
+      indent  = ' ' * (o[:indent] || 0)
+
+      ret = Array.new
+
+      split_arr.each_slice(2) do |(chunk, chunk_ws)|
+        line = ret[-1] || ''
+        if (findent + line.size + chunk.size) > o[:width] # New line
+          ret << [(indent unless ret.empty?), chunk, chunk_ws].join
+          findent = 0
+        else
+          (ret[-1] or ret[0]='') << [chunk, chunk_ws].join
+        end
+      end
+
+      ret
     end
   end
 end
