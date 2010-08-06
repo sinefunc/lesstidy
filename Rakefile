@@ -79,7 +79,7 @@ task :create_fixtures do
     name = basename.split('.')[0]
 
     create_fixture_file "#{path}/#{name}.inspect.txt", "-d \"#{file}\""
-    ['column', 'default', 'terse'].each do |preset|
+    ['column', 'default', 'terse', 'column-80'].each do |preset|
       create_fixture_file "#{path}/#{name}.#{preset}.css", "--preset=#{preset} \"#{file}\""
     end
   end
