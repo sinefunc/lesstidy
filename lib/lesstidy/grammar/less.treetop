@@ -65,8 +65,13 @@ module Lesstidy
       selector ( ws ',' ws selector )*
     end
   
+    rule quoted_string
+      ("'" ( '\\\'' / [^'] )* "'") /
+      ('"' ( '\\"' / [^"] )* '"')
+    end
+
     rule selector
-      ( [A-Za-z0-9] / ':' / '>' / '*' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / [\n\t ]+ / '&' )+ {
+      ( [A-Za-z0-9] / '+' / quoted_string / '~' / '$' / ':' / '>' / '*' / '(' / ')' / '[' / ']' / '-' / '_' / '#' / '.' / [\n\t ]+ / '&' )+ {
         def build(ruleset)
           sel = Lesstidy::Nodes::Selector.new self.text_value.strip
           ruleset << sel
