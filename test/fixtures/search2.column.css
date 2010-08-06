@@ -1,0 +1,10 @@
+/* Item overview */
+.item-overview      { float: left; width: 50%; .min-height(160px); padding-bottom: 10px; 
+  > .c              { .hr-section; }
+  h3                { border-bottom: 0; }
+  .product-thumb    { float: left; margin: 0 10px 10px 0; .image-link-big; }
+  .mini-specs       { margin: 10px 0 10px 129px; 
+    li              { padding-top: 2px; padding-bottom: 2px; }
+  }
+}
+

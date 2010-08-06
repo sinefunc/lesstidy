@@ -1,0 +1,8 @@
+/* item overview actions */
+.item-overview-actions { .non-list; clear: both; 
+  li { float: left; }
+  li.compare-link { float: right; }
+  li.compare-link .button-purple span { text-transform: uppercase; font-size: 10px !important; }
+  li.price { font-size: 18px; font-weight: bold; margin-top: 2px; }
+}
+

@@ -1,0 +1,21 @@
+. [document]
+. . /* item overview actions */
+. . [ruleset]
+. . . [S] .item-overview-actions
+. . . [M]    .non-list
+. . . [R]    clear: both
+. . . [ruleset]
+. . . . [S] li
+. . . . [R]    float: left
+. . . [ruleset]
+. . . . [S] li.compare-link
+. . . . [R]    float: right
+. . . [ruleset]
+. . . . [S] li.compare-link .button-purple span
+. . . . [R]    text-transform: uppercase
+. . . . [R]    font-size: 10px !important
+. . . [ruleset]
+. . . . [S] li.price
+. . . . [R]    font-size: 18px
+. . . . [R]    font-weight: bold
+. . . . [R]    margin-top: 2px

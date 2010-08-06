@@ -1,0 +1,26 @@
+. [document]
+. . /* Item overview */
+. . [ruleset]
+. . . [S] .item-overview
+. . . [R]    float: left
+. . . [R]    width: 50%
+. . . [M]    .min-height(160px)
+. . . [R]    padding-bottom: 10px
+. . . [ruleset]
+. . . . [S] > .c
+. . . . [M]    .hr-section
+. . . [ruleset]
+. . . . [S] h3
+. . . . [R]    border-bottom: 0
+. . . [ruleset]
+. . . . [S] .product-thumb
+. . . . [R]    float: left
+. . . . [R]    margin: 0 10px 10px 0
+. . . . [M]    .image-link-big
+. . . [ruleset]
+. . . . [S] .mini-specs
+. . . . [R]    margin: 10px 0 10px 129px
+. . . . [ruleset]
+. . . . . [S] li
+. . . . . [R]    padding-top: 2px
+. . . . . [R]    padding-bottom: 2px
